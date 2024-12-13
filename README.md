@@ -1,4 +1,4 @@
-![Hardware Hunter Logo](https://github.com/HardwareHunter/HardwareHunter/blob/master/images/logo.png)
+![Hardware Hunter Logo](https://github.com/HardwareHunter/HardwareHunter/blob/main/images/logo.png)
 
 # Hardware Hunter
 
