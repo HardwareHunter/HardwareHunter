@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC Parts Finder</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+<div class="floating-nav">
+  <button class="nav-button left-button">Previous</button>
+  <button class="nav-button cart-button">
+    <i class="fas fa-shopping-cart"></i> Cart
+  </button>
+  <button class="nav-button right-button">Next</button>
+</div>
+
+<div id="video-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <iframe id="youtube-embed" width="100%" height="600" src="" frameborder="0" allow="fullscreen"></iframe>
+  </div>
+</div>
+
+<div id="left-panel">
+  <img id="logo" src="images/logo.png" alt="Logo">
+  <div id="parts-search-container">
+    <form autocomplete="off">
+      <div id="parts-search">
+        <input type="text" id="PS-text" class="input-field" placeholder="Search for parts">
+        <div id="pClear"></div>
+      </div>
+    </form>
+  </div>
+
+  <div id="search-container">
+    <form autocomplete="off">
+      <div class="location-input-wrapper">
+        <input type="text" id="location-search" class="input-field" placeholder="Enter location..." />
+        <button id="get-location-btn" title="Get My Location">
+          <i class="fas fa-map-marker-alt"></i>
+        </button>
+      </div>
+      <div id="lClear"></div>
+    </form>
+  </div>
+
+  <div id="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <div id="loading-text" class="terminal-text"></div>
+  </div>
+
+
+  <div>
+    <button id="search-button">Search</button>
+  </div>
+
+
+  <div id="instructions">
+    <h2>How to Use Hardware Hunter</h2>
+    <ol>
+      <li>Fill out your location in the "Enter location..." field. OR click the "Get My Location" button to use your current location.</li>
+      <li>Enter a PC part you are searching for in the "Search for parts" field.</li>
+      <li>Click the "Search" button to find stores near you.</li>
+    </ol>
+  </div>
+
+    <div id="info-container">
+      <h1>Store Information</h1>
+      <div id="info-display" class="scrollable"></div>
+    </div>
+  </div>
+
+<div id="steam-container">
+  <img id="steam" src="images/Steam.png" alt="Steam">
+  <div id="steam-search-container">
+    <form autocomplete="off">
+      <div class="autocomplete">
+        <input type="text" id="steam-url" class="input-field" placeholder="Enter Steam game URL">
+        <div id="sClear"></div>
+      </div>
+    </form>
+  </div>
+  <button id="fetch-specs">Get Specs</button>
+
+  <div id="steam-instructions">
+    <h3>How to use:</h3>
+    <ol>
+      <li>Input a Steam game URL in the field above</li>
+      <li>Click on "Get Specs" button</li>
+      <li>Wait for the API response</li>
+    </ol>
+  </div>
+
+
+    <div id="game-info" style="display: none;">
+      <img id="game-cover" src="placeholder-cover.jpg" alt="Game Cover">
+      <h3 id="game-name">Game Name</h3>
+      <div class="specs-section">
+        <h4>Minimum Specs</h4>
+        <div id="min-specs">-</div>
+      </div>
+      <div class="specs-section">
+        <h4>Recommended Specs</h4>
+        <div id="rec-specs">-</div>
+      </div>
+    </div>
+  </div>
+
+<div id="map">
+  <div class="vignette"></div>
+</div>
+
+<div id="category-container">
+  <div class="category-button" onmouseover="showDropdown('cpu-dropdown')" onmouseout="hideDropdown('cpu-dropdown')">
+    CPU
+    <div class="dropdown" id="cpu-dropdown">
+      <div class="dropdown-item" onclick="populateSearch('Intel Core i9')">Intel Core i9</div>
+      <div class="dropdown-item" onclick="populateSearch('AMD Ryzen 9')">AMD Ryzen 9</div>
+      <div class="dropdown-item" onclick="populateSearch('Intel Core i7')">Intel Core i7</div>
+    </div>
+  </div>
+  <div class="category-button" onmouseover="showDropdown('gpu-dropdown')" onmouseout="hideDropdown('gpu-dropdown')">
+    GPU
+    <div class="dropdown" id="gpu-dropdown">
+      <div class="dropdown-item" onclick="populateSearch('NVIDIA GeForce RTX 3090')">NVIDIA GeForce RTX 3090</div>
+      <div class="dropdown-item" onclick="populateSearch('AMD Radeon RX 6800')">AMD Radeon RX 6800</div>
+      <div class="dropdown-item" onclick="populateSearch('NVIDIA GeForce GTX 1660')">NVIDIA GeForce GTX 1660</div>
+    </div>
+  </div>
+  <div class="category-button" onmouseover="showDropdown('ram-dropdown')" onmouseout="hideDropdown('ram-dropdown')">
+    RAM
+    <div class="dropdown" id="ram-dropdown">
+      <div class="dropdown-item" onclick="populateSearch('Corsair Vengeance LPX 16GB')">Corsair Vengeance LPX 16GB</div>
+      <div class="dropdown-item" onclick="populateSearch('G.Skill Ripjaws V 16GB')">G.Skill Ripjaws V 16GB</div>
+      <div class="dropdown-item" onclick="populateSearch('Crucial Ballistix 16GB')">Crucial Ballistix 16GB</div>
+    </div>
+  </div>
+  <div class="category-button" onmouseover="showDropdown('motherboard-dropdown')" onmouseout="hideDropdown('motherboard-dropdown')">
+    Motherboard
+    <div class="dropdown" id="motherboard-dropdown">
+      <div class="dropdown-item" onclick="populateSearch('ASUS ROG Strix B550-F')">ASUS ROG Strix B550-F</div>
+      <div class="dropdown-item" onclick="populateSearch('MSI MAG B550M')">MSI MAG B550M</div>
+      <div class="dropdown-item" onclick="populateSearch('Gigabyte X570 AORUS')">Gigabyte X570 AORUS</div>
+    </div>
+  </div>
+  <div class="category-button" onmouseover="showDropdown('psu-dropdown')" onmouseout="hideDropdown('psu-dropdown')">
+    PSU
+    <div class="dropdown" id="psu-dropdown">
+      <div class="dropdown-item" onclick="populateSearch('Corsair RM750x')">Corsair RM750x</div>
+      <div class="dropdown-item" onclick="populateSearch('EVGA 600 W1')">EVGA 600 W1</div>
+      <div class="dropdown-item" onclick="populateSearch('Seasonic Focus GX-750')">Seasonic Focus GX-750</div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="js/HardwareHunter.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+  <script>
+    document.getElementById("fetch-specs").addEventListener("click", function () {
+      const steamUrl = document.getElementById("steam-url").value;
+
+      fetch("http://localhost:8000/fetch-specs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: steamUrl,
+      })
+              .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok.");
+                return response.json();
+              })
+              .then(data => {
+                if (data.name) {
+                  document.getElementById("game-name").innerText = data.name;
+                } else {
+                  document.getElementById("game-name").innerText = "Game Name Not Found";
+                }
+
+                if (data.cover) {
+                  document.getElementById("game-cover").src = data.cover;
+                } else {
+                  document.getElementById("game-cover").src = "placeholder-cover.jpg"; // Default cover
+                }
+
+                document.getElementById("min-specs").innerHTML = data.minimum || "No minimum specs found.";
+                document.getElementById("rec-specs").innerHTML = data.recommended || "No recommended specs found.";
+              })
+              .catch(error => console.error('Error:', error));
+    });
+
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+
+
+  </body>
+  </html>

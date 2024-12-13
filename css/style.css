@@ -1,0 +1,588 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: rgba(35, 39, 42, 0);
+    color: rgba(255, 255, 255, 0);
+    font-family: 'Roboto', sans-serif;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+#steam-instructions{
+    color: white;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 720px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+#info-container h1 {
+    display: none;
+}
+#instructions {
+    color: white;
+    margin-bottom: 20px;
+}
+.floating-nav {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(41, 43, 47, 0.8);
+    border-radius: 25px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    width: 50%;
+}
+#category-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    z-index: 1000;
+    padding: 0 5px;
+}
+
+.category-button {
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.category-button:hover {
+    background-color: #4752C4;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #343a40;
+    min-width: 150px;
+    border-radius: 4px;
+    z-index: 2000;
+}
+
+.dropdown-item {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #4752C4;
+}
+
+.cart-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    max-height: 80%;
+    overflow-y: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 2001;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    color: black;
+
+}
+.terminal-text {
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
+    background-color: #000;
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 80%;
+    margin: 20px auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.remove-item {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    color: black;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.cart-actions button {
+    padding: 10px 20px;
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-actions button:hover {
+    background-color: #4752C4;
+}
+
+#qrcode {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+.blur {
+    filter: blur(5px);
+}
+
+.store-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.best-buy-logo {
+    width: 5%;
+    height: auto;
+    margin-right: 10px;
+}
+#info-display {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgb(41, 43, 47);
+    flex-grow: 1;
+
+}
+
+.store-header {
+    position: sticky;
+    top: 0;
+    background-color: rgb(41, 43, 47);
+    padding: 10px;
+    border-bottom: 1px solid rgb(41, 43, 47);
+    color: white;
+    z-index: 1;
+}
+
+.products-list {
+    padding-top: 10px;
+}
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #7c3434;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-overlay p {
+    color: white;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.nav-button {
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+    flex: 1;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.nav-button:hover {
+    background-color: #4752C4;
+}
+
+.cart-button {
+    margin: 0 15px;
+    flex: 1.5;
+    font-size: 18px;
+    padding: 12px 20px;
+}
+
+.cart-button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.location-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#location-search {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+#get-location-btn {
+    background-color: #c59c36;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 100px;
+}
+
+#get-location-btn:hover {
+    background-color: #e8a842;
+}
+
+#left-panel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 17%;
+    height: 100%;
+    background-color: #292b2f;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+
+
+#logo {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px;
+}
+
+#steam {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto 20px;
+}
+
+.input-field {
+
+    width: 100%;
+    height: 40px;
+    padding: 5px 10px;
+    border: 1px solid #99AAB5;
+    border-radius: 20px;
+    font-size: 15px;
+    background-color: white;
+    color: black;
+    box-sizing: border-box;
+}
+
+#parts-search {
+    margin-bottom: 10px;
+}
+
+#parts-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+#info-container {
+    color: white;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.parts-button {
+    flex-grow: 1;
+    padding: 10px;
+    margin: 0 5px;
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.parts-button:hover {
+    background-color: #4752C4;
+}
+
+#search-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#search-button {
+    width: calc(100% - 9px);
+    padding: 10px;
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+#search-button:hover {
+    background-color: #4752C4;
+}
+#map {
+    height: 100vh;
+    width: 66%;
+    margin-right: 17%;
+    margin-left: 17%;
+    position: relative;
+    overflow: hidden;
+}
+
+.vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.vignette:before,
+.vignette:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+}
+
+.vignette:after {
+    top: auto;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+}
+#steam-search-container{
+    margin-bottom: 20px;
+}
+
+#steam-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 17%;
+    height: 100%;
+    background-color: #292b2f;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.scrollable {
+    max-height: 100%;
+}
+
+#fetch-specs {
+    width: 100%;
+    padding: 10px;
+    background-color: #5865F2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#fetch-specs:hover {
+    background-color: #4752C4;
+}
+
+#game-info {
+    background-color: #40444B;
+    padding: 15px;
+    border-radius: 4px;
+    color: white;
+}
+
+#game-cover {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#game-name {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.specs-section {
+    margin-bottom: 20px;
+}
+
+.specs-section h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #5865F2;
+}
+
+.specs-section p {
+    margin: 5px 0;
+}
+
+.custom-div-icon {
+    background: none;
+    border: none;
+}
+
+.autocomplete {
+    position: relative;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: black;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}
+
+#price-slider-search-container {
+    margin-top: 20px;
+    width: calc(100% - 20px);
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #99AAB5;
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+}
+
+
+
+#slider-container {
+    color: white;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+#price-display {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
